@@ -1,5 +1,8 @@
 package com.springboot.api.controller;
 
+import com.springboot.api.dto.MemberDto;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -36,13 +39,13 @@ public class GetController {
 
     // http://localhost:8080/api/v1/get-api/request1?name=value1&email=value2&organization=value3
     // URL 경로에 값을 담아 요청을 보내는 방법이 아니라 쿼리 형식으로 값을 전달하는 방법 = URI 기준
-    @GetMapping(value = "/request1")
+    /*@GetMapping(value = "/request1")
     public String getRequestParam1 (
             @RequestParam String name,
             @RequestParam String email,
             @RequestParam String organization) {
         return name + " " + email + " " + organization;
-    }
+    }*/
 
     // 쿼리 스트링에 어떤 값이 들어오는지 모른다면 Map 객체를 활용
     @GetMapping(value = "/request2")
@@ -54,4 +57,21 @@ public class GetController {
 
         return sb.toString();
     }
+
+    @GetMapping(value="/request3")
+    public String getRequestParam3 (MemberDto memberDto) {
+       return memberDto.toString();
+    }
+
+    // 예제5.23 기존 코드에 Swagger 명세 추가하기
+    @ApiOperation(value = "GET 메소드 예제", notes = "@RequestParam을 활용한 GET Method")
+    @GetMapping(value = "/request1")
+    public String getRequestParam1 (
+            @ApiParam(value = "이름", required = true) @RequestParam String name,
+            @ApiParam(value = "이메일", required = true) @RequestParam String email,
+            @ApiParam(value = "회사", required = true) @RequestParam String organization)
+    {
+        return name + " " + email + " " + organization;
+    }
+
 }
