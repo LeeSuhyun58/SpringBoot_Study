@@ -3,6 +3,8 @@ package com.springboot.api.controller;
 import com.springboot.api.dto.MemberDto;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -10,17 +12,20 @@ import java.util.Map;
 @RestController
 @RequestMapping("api/v1/get-api") // 내부에 선언되는 메소드에서 사용할 공통 URL을 설정
 public class GetController {
+    private final Logger LOGGER = LoggerFactory.getLogger(GetController.class);
 
     // http://localhost:8080/api/v1/get-api/hello
     // RequestMapping을 별다른 설정없이 선언하면 HTTP 의 모든 요청을 받는 다는 의미 -> Get 요청만 받기 위해서는 method 지정이 필요
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
     public String getHello(){
+        LOGGER.info("getHello 메소드가 호출되었습니다.");
         return "Hello World!";
     }
 
     // http://localhost:8080/api/v1/get-api/name
     @GetMapping(value = "/name")
     public String getName() {
+        LOGGER.info("getName 메소드가 호출되었습니다.");
         return "Flature";
     }
 
@@ -29,6 +34,7 @@ public class GetController {
     // {} 중괄호로 표시된 윛의 값을 받아 오는 요청
     @GetMapping(value = "/variable1/{variable}")
     public String getVariable1(@PathVariable String variable){
+        LOGGER.info("@PathVariable을 통해 들어온 값 : {}", variable);
         return variable;
     }
 
